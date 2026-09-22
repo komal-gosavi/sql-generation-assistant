@@ -1,4 +1,5 @@
 import sqlglot
+import re
 from sqlglot import exp
 
 from app.utils.errors import SQLValidationError
@@ -32,8 +33,10 @@ def validate_select_only(sql: str) -> str:
     ]
 
     for keyword in forbidden:
-        if keyword in lowered:
-            raise SQLValidationError("Only read-only SELECT queries are allowed.")
+        if re.search(rf"\b{re.escape(keyword)}\b", lowered):
+            raise SQLValidationError(
+                "Only read-only SELECT queries are allowed."
+            )
 
     if not lowered.startswith("select"):
         raise SQLValidationError("Only SELECT statements are allowed.")

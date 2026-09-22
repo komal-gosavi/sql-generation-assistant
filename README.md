@@ -76,7 +76,7 @@ docker compose up -d
 ### 5. Run the API
 
 ```bash
-uv run uvicorn app.main:app --reload
+uv run python -m uvicorn app.main:app --reload
 ```
 
 Open Swagger UI:
